@@ -1,23 +1,23 @@
-package com.example.springpractice;
+package com.example.springpractice.controller;
 
-import com.example.springpractice.entity.User;
 import com.example.springpractice.repository.UserRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.Assert.*;
 
 @SpringBootTest
-class SpringPracticeApplicationTests {
+public class MainControllerTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    void contextLoads() {
-        Boolean is = userRepository.existsById(new Integer(2));
-        assertTrue(is);
+    public void addNewUser() {
     }
 
+    @Test
+    public void getAllUser() {
+    }
 }
