@@ -12,13 +12,13 @@ public class SessionController {
 
   @GetMapping("/setMsg")
   public @ResponseBody String setMsg(HttpSession session) {
-    session.setAttribute("msg", "Hello SpringSession");
+    session.setAttribute("username", "username");
     return "ok";
   }
 
   @GetMapping("/getMsg")
   public @ResponseBody String getMsg(HttpSession session) {
-    String msg = (String) session.getAttribute("msg");
+    String msg = (String) session.getAttribute("username");
     return msg;
   }
 }

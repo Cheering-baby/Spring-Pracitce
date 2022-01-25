@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -20,7 +22,7 @@ public class LoginController {
   }
 
   @PostMapping("/account")
-  public @ResponseBody Result account(@RequestBody User loginUser) {
+  public @ResponseBody Result account(@RequestBody User loginUser, HttpSession session) {
 
     User findUser = userRepository.findByUsername(loginUser.getUsername());
     if(findUser == null) {
@@ -31,7 +33,7 @@ public class LoginController {
     if(loginUserPwd.equals(findUserPwd) == false) {
       return new Result<>().fail(ServiceError.USER_PWD_ERROR.getMsg());
     }
-
+    session.setAttribute("username", findUser.getUsername());
     return new Result().success(null);
   }
 }

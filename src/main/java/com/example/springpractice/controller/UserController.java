@@ -7,6 +7,7 @@ import com.example.springpractice.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -40,7 +41,13 @@ public class UserController {
   }
 
   @GetMapping("/currentUser")
-  public @ResponseBody Result currentUser(@RequestParam(value = "username") String username) {
+  public @ResponseBody Result currentUser(HttpSession session) {
+    String username = (String) session.getAttribute("username");
+
+    if(username == null) {
+      return new Result<>().fail(ServiceError.USER_NEED_LOGIN.getMsg());
+    }
+
     User findUser = userRepository.findByUsername(username);
     if(findUser == null) {
       return new Result<>().fail(ServiceError.USER_NOT_FOUND.getMsg());
