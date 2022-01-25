@@ -1,9 +1,6 @@
 package com.example.springpractice.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -11,26 +8,10 @@ public class User {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  public String getUser_pwd() {
-    return user_pwd;
-  }
-
-  public void setUser_pwd(String user_pwd) {
-    this.user_pwd = user_pwd;
-  }
-
-  private String user_name;
-
-  private String user_pwd;
-
-  @Override
-  public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", user_name='" + user_name + '\'' +
-            ", user_pwd='" + user_pwd + '\'' +
-            '}';
-  }
+  @Column(name = "username", nullable = true, unique = true)
+  private String username;
+  @Column(name = "password", nullable = true)
+  private String password;
 
   public Integer getId() {
     return id;
@@ -40,11 +21,28 @@ public class User {
     this.id = id;
   }
 
-  public String getUser_name() {
-    return user_name;
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            '}';
   }
 
-  public void setUser_name(String user_name) {
-    this.user_name = user_name;
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }
