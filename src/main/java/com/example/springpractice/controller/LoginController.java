@@ -5,14 +5,11 @@ import com.example.springpractice.entity.User;
 import com.example.springpractice.errorEnum.ServiceError;
 import com.example.springpractice.repository.UserRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-@Controller
+@RestController
 @RequestMapping("/login")
 public class LoginController {
   private final UserRepository userRepository;
@@ -22,7 +19,7 @@ public class LoginController {
   }
 
   @PostMapping("/account")
-  public @ResponseBody Result account(@RequestBody User loginUser, HttpSession session) {
+  public Result account(@RequestBody User loginUser, HttpSession session) {
 
     User findUser = userRepository.findByUsername(loginUser.getUsername());
     if(findUser == null) {
