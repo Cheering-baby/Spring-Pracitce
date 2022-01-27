@@ -1,9 +1,12 @@
 package com.example.springpractice.controller;
 
+import com.example.springpractice.entity.PageBean;
 import com.example.springpractice.entity.Result;
 import com.example.springpractice.entity.User;
 import com.example.springpractice.errorEnum.ServiceError;
 import com.example.springpractice.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +40,16 @@ public class UserController {
 
   @GetMapping("/queryAllUser")
   public Result getAllUser() {
-    return new Result().success(userRepository.findAll());
+    Page<User> users = userRepository.findAll(PageRequest.of(1, 10));
+
+    PageBean<User> pageBean = new PageBean<>();
+    pageBean.setTotal(users.getTotalElements());
+    pageBean.setTotalPage(users.getTotalPages());
+    pageBean.setPageNumber(users.getNumber());
+    pageBean.setPageSize(users.getSize());
+    pageBean.setData(users.getContent());
+
+    return new Result().success(pageBean);
   }
 
   @GetMapping("/currentUser")
