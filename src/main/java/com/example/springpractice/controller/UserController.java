@@ -5,14 +5,17 @@ import com.example.springpractice.entity.Result;
 import com.example.springpractice.entity.User;
 import com.example.springpractice.errorEnum.ServiceError;
 import com.example.springpractice.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @RestController// This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL starts with /demo (After Application Path)
@@ -40,7 +43,8 @@ public class UserController {
 
   @GetMapping("/queryAllUser")
   public Result getAllUser() {
-    Page<User> users = userRepository.findAll(PageRequest.of(1, 10));
+    Sort sort = Sort.by("id").descending();
+    Page<User> users = userRepository.findAll(PageRequest.of(1, 10, sort));
 
     PageBean<User> pageBean = new PageBean<>();
     pageBean.setTotal(users.getTotalElements());
@@ -53,7 +57,7 @@ public class UserController {
   }
 
   @GetMapping("/currentUser")
-  public Result currentUser(HttpSession session) {
+  public Result currentUser(@NotNull HttpSession session) {
     String username = (String) session.getAttribute("username");
 
     if(username == null) {
